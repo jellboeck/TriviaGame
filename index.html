@@ -1,24 +1,54 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head> 
- <meta charset="UTF-8">
- <title>Trivia Game</title>
 
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
- <link rel="stylesheet" href="Assets/CSS/style.css"/>
+<head>
+    <meta charset="UTF-8">
+    <title>Trivia Game</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="Assets/CSS/style.css" />
 
 </head>
+
 <body>
 
-    <div id="quiz"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <img src="Assets/Images/Seinfeld_English_logo.png" class="img-fluid text-center" id="logo"
+                    alt="Seinfeld logo">
+                <h1 class="display-3">Trivia Game</h1>
+                <hr>
+            </div>
+        </div>
 
-    <div id="results"></div>
+        <div class="row">
+            <div class="col-md-3">
+                <div>
+                    <h3 id="timer"></h3>
+                </div>
+                <img src="Assets/Images/best-crackle-tv-shows-seinfeld.png" class="img-fluid text-center" id="cast-photo"
+                    alt="Seinfeld Cast">
+            </div>
+            <div class="col-md-8">
+                <div id="start-page" class="start-page-text">
+                    <h2>Get ready to play</h2>
+                    <p>Test your knowledge of the hit show Seinfeld with this multiple choice trivia game. You have 60
+                        seconds to answer all the questions. The game will end automatically when time is up. Good
+                        luck!</p>
+                    <div class="btn btn-primary" id="start-button">Start the Game!
+                    </div>
+                </div>
+
+            </div>
 
 
-<!-- link to jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-<!-- link to js sheet -->
-<script src="Assets/JS/game.js"></script>
+            <!-- link to jquery -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <!-- link to js sheet -->
+            <script src="Assets/JS/game.js"></script>
 
 </body>
+
 </html>

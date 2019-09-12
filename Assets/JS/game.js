@@ -1,3 +1,4 @@
+//Array to hold the Quiz Questions
 var questions = [{
     question: "During season eight, Kramer lost plenty of sleep due to this fast food chain's neon sign",
     answerOptions: ["Qdoba", "Boston Market", "Kenny Rogers Roasters", "Arby's"],
@@ -32,14 +33,39 @@ var questions = [{
     answerOptions: ["Frozen", "In One Bite", "With a Fork and Knife", "Melted into Icecream"],
     answer: 2
 
-},{
-    question:"In the episode 'The Parking Garage' why is Elaine in a rush to get home?",
-    answerOptions:["She doesn’t want her new goldfish to die","She has a date", "She is claustrophobic", "She is late for work"],
-    answer: 0   
-    
-},{
-    question:"In season six’s 'The Doorman' Kramer and Frank Costanza invent a chest-support garment. Kramer wants to name it...",
-    answerOptions:["The Cup","The Bro", "Man's Best Friend","The Manssiere"],
+}, {
+    question: "In the episode 'The Parking Garage' why is Elaine in a rush to get home?",
+    answerOptions: ["She doesn’t want her new goldfish to die", "She has a date", "She is claustrophobic", "She is late for work"],
+    answer: 0
+
+}, {
+    question: "In season six’s 'The Doorman' Kramer and Frank Costanza invent a chest-support garment. Kramer wants to name it...",
+    answerOptions: ["The Cup", "The Bro", "Man's Best Friend", "The Manssiere"],
     answer: 1
 
 }]
+
+var timer = 90;
+var correctAnswer = 0;
+var incorrectAnswer = 0;
+
+console.log(timer)
+
+
+$("#start-button").on("click", function () {
+    start()
+})
+
+
+function start() {
+    $("#timer").text("Time Remaining: " + timer);
+    setInterval(counter, 1000);
+    $("#start-page").hide();
+    
+}
+
+function counter() {
+    timer--;
+    $("#timer").text("Time Remaining: " + timer);
+}
+
