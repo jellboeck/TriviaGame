@@ -1,3 +1,11 @@
+//Variables
+var timer = 60;
+var correctAnswer;
+var userAnswer;
+var correct = 0;
+var incorrect= 0;
+var unanswered = 0;
+
 //Array to hold the Quiz Questions
 var questions = [{
     question: "During season eight, Kramer lost plenty of sleep due to this fast food chain's neon sign",
@@ -45,27 +53,60 @@ var questions = [{
 
 }]
 
-var timer = 90;
-var correctAnswer = 0;
-var incorrectAnswer = 0;
-
-console.log(timer)
-
-
+//starts the game
 $("#start-button").on("click", function () {
     start()
+    displayQuestions()
 })
+
+
+// pull questions from the array of questions, loop through them, and display for the user
+function displayQuestions() {
+    var questionBox = $("#question-box");
+    questionBox.append('<h2>Answer the following questions:</h2>');
+
+    for (var i = 0; i < questions.length; i++) {
+
+        questionBox.append('<div id="question-box">' + questions[i].question + '</div>');
+
+        var answer1 = questions[i].answerOptions[0];
+        var answer2 = questions[i].answerOptions[1];
+        var answer3 = questions[i].answerOptions[2];
+        var answer4 = questions[i].answerOptions[3];
+
+        questionBox.append('<div class="form-check"><input class="form-check-input" type="radio" name="radio-group' + i + '" id="radio' + i + '"><label class="form-check-label" id="radio' + i + 'label" for="radio' + i + '">' + answer1 + '</label></div>');
+        questionBox.append('<div class="form-check"><input class="form-check-input" type="radio" name="radio-group' + i + '" id="radio' + i + '"><label class="form-check-label" id="radio' + i + 'label" for="radio' + i + '">' + answer2 + '</label></div>');
+        questionBox.append('<div class="form-check"><input class="form-check-input" type="radio" name="radio-group' + i + '" id="radio' + i + '"><label class="form-check-label" id="radio' + i + 'label" for="radio' + i + '">' + answer3 + '</label></div>');
+        questionBox.append('<div class="form-check"><input class="form-check-input" type="radio" name="radio-group' + i + '" id="radio' + i + '"><label class="form-check-label" id="radio' + i + 'label" for="radio' + i + '">' + answer4 + '</label></div>');
+    }
+
+    // Adds a button to the end of the page to submit the answeres before time is up
+    var submitButton = '<button class="btn btn-primary" id="submit-button" type="submit">Submit Answers!</button>';
+    questionBox.append(submitButton);
+    $("#submit-button").on("click", );
+}
+
 
 
 function start() {
     $("#timer").text("Time Remaining: " + timer);
     setInterval(counter, 1000);
     $("#start-page").hide();
-    
+
 }
 
 function counter() {
     timer--;
     $("#timer").text("Time Remaining: " + timer);
+    if (timer === 0) {
+        endTimer()
+       
+    }
 }
+function endTimer() {
+    clearInterval();
+    $("#timer").text("Time is up!");
+
+}
+
 
