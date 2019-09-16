@@ -1,12 +1,4 @@
-//Variables
-var timer = 60;
-var correctAnswer;
-var userAnswer;
-var correct = 0;
-var incorrect= 0;
-var unanswered = 0;
-
-//Array to hold the Quiz Questions
+//Object holding the questions, answers and answer index//
 var questions = [{
     question: "During season eight, Kramer lost plenty of sleep due to this fast food chain's neon sign",
     answerOptions: ["Qdoba", "Boston Market", "Kenny Rogers Roasters", "Arby's"],
@@ -53,60 +45,119 @@ var questions = [{
 
 }]
 
-//starts the game
-$("#start-button").on("click", function () {
-    start()
-    displayQuestions()
-})
+//variables
+var currentQuestion=0; 
+var correctAnswer=0; 
+var incorrectAnswer=0; 
+var unanswered=0;
+var answered=true; 
+var seconds; 
+var time; 
+var userAnswer;
+var messages = {
+	correct: "You got it right!",
+	incorrect: "Incorrect!",
+	endTime: "Out of time!",
+}
+//starts the quiz
+$("#start-button").on('click', function(){
+	$("#start-page").hide();
+	newQuestion();
+});
 
+//resets the variables and starts the quiz over
+$("#restart-button").on("click", function(){
+    $(this).hide();
+    currentQuestion=0; 
+    correctAnswer=0; 
+    incorrectAnswer=0; 
+    unanswered=0;
+    $("#correct-answers").empty();
+    $("#incorrect-answers").empty();
+    $("#unanswered").empty();
+	newQuestion();
+});
 
-// pull questions from the array of questions, loop through them, and display for the user
-function displayQuestions() {
-    var questionBox = $("#question-box");
-    questionBox.append('<h2>Answer the following questions:</h2>');
-
-    for (var i = 0; i < questions.length; i++) {
-
-        questionBox.append('<div id="question-box">' + questions[i].question + '</div>');
-
-        var answer1 = questions[i].answerOptions[0];
-        var answer2 = questions[i].answerOptions[1];
-        var answer3 = questions[i].answerOptions[2];
-        var answer4 = questions[i].answerOptions[3];
-
-        questionBox.append('<div class="form-check"><input class="form-check-input" type="radio" name="radio-group' + i + '" id="radio' + i + '"><label class="form-check-label" id="radio' + i + 'label" for="radio' + i + '">' + answer1 + '</label></div>');
-        questionBox.append('<div class="form-check"><input class="form-check-input" type="radio" name="radio-group' + i + '" id="radio' + i + '"><label class="form-check-label" id="radio' + i + 'label" for="radio' + i + '">' + answer2 + '</label></div>');
-        questionBox.append('<div class="form-check"><input class="form-check-input" type="radio" name="radio-group' + i + '" id="radio' + i + '"><label class="form-check-label" id="radio' + i + 'label" for="radio' + i + '">' + answer3 + '</label></div>');
-        questionBox.append('<div class="form-check"><input class="form-check-input" type="radio" name="radio-group' + i + '" id="radio' + i + '"><label class="form-check-label" id="radio' + i + 'label" for="radio' + i + '">' + answer4 + '</label></div>');
-    }
-
-    // Adds a button to the end of the page to submit the answeres before time is up
-    var submitButton = '<button class="btn btn-primary" id="submit-button" type="submit">Submit Answers!</button>';
-    questionBox.append(submitButton);
-    $("#submit-button").on("click", );
+function newQuestion(){
+	$("#message").empty();
+	$("#correctedAnswer").empty();
+    
+	//sets up new questions & answerList
+	$("#currentQuestion").html("Question #"+(currentQuestion+1)+"/"+questions.length);
+    $("#question").html("<h3>"+ questions[currentQuestion].question +"</h3>");
+    console.log(question)
+	for(var i = 0; i < 4; i++){
+		var choices = $("<div>");
+		choices.text(questions[currentQuestion].answerOptions[i]);
+		choices.attr({"data-index": i });
+		choices.addClass("answer");
+		$("#answerOptions").append(choices);
+	}
+	countdown();
+	//clicking an answer will pause the time and setup answerPage
+	$(".answer").on("click",function(){
+		userAnswer = $(this).data("index");
+		clearInterval(time);
+		answerPage();
+	});
 }
 
-
-
-function start() {
-    $("#timer").text("Time Remaining: " + timer);
-    setInterval(counter, 1000);
-    $("#start-page").hide();
-
+function countdown(){
+	seconds = 15;
+	$("#timeLeft").html("<h3>Time Remaining: " + seconds + "</h3>");
+	time = setInterval(showCountdown, 1000);
 }
 
-function counter() {
-    timer--;
-    $("#timer").text("Time Remaining: " + timer);
-    if (timer === 0) {
-        endTimer()
-       
-    }
+function showCountdown(){
+	seconds--;
+	$("#timeLeft").html("<h3>Time Remaining: " + seconds + "</h3>");
+	if(seconds < 1){
+        clearInterval(time);
+        answered = false;
+		answerPage();
+	}
 }
-function endTimer() {
-    clearInterval();
-    $("#timer").text("Time is up!");
+//clears the answer options and question before displaying the message and correct answer
+function answerPage(){
 
+    $("#question").empty();
+	$(".answer").empty(); 
+	
+	var rightAnswerText = questions[currentQuestion].answerOptions[questions[currentQuestion].answer];
+	var rightAnswerIndex = questions[currentQuestion].answer;
+    //checks to see if answer was correct, incorrect, or left unanswered
+    //displays the message and correct answer
+	if ((userAnswer === rightAnswerIndex) && (answered === true)) {
+		correctAnswer++;
+        $("#message").html("<h4>" + messages.correct +"</h4>");
+        $("#correctedAnswer").html("<h4>" +"The answer was: " +"</h4>" + rightAnswerText);
+	} else if ((userAnswer !== rightAnswerIndex) && (answered === true)) {
+		incorrectAnswer++;
+		$("#message").html("<h4>" + messages.incorrect + "</h4>");
+		$("#correctedAnswer").html("<h4>" + "The correct answer was: " + "</h4>" + rightAnswerText);
+	} else{
+		unanswered++;
+		$("#message").html("<h4>" + messages.endTime + "</h4>");
+		$("#correctedAnswer").html("<h4>" + "The correct answer was: " + "</h4>" + rightAnswerText);
+		answered = true;
+	}
+	
+	if(currentQuestion === (questions.length-1)){
+		setTimeout(scoreboard, 3000)
+	} else{
+		currentQuestion++;
+		setTimeout(newQuestion, 3000);
+	}	
 }
 
-
+function scoreboard(){
+    $("#timeLeft").empty();
+    $("#currentQuestion").empty();
+	$("#message").empty();
+	$("#correctedAnswer").empty();
+	$("#correct-answers").html("Correct Answers: " + correctAnswer);
+	$("#incorrect-answers").html("Incorrect Answers: " + incorrectAnswer);
+    $("#unanswered").html("Unanswered Questions: " + unanswered);
+    $("#restart").show();
+	$("#restart").html("<button class='btn btn-primary' id='restart-button'>" + "Play Again?"+ "</button>");
+}

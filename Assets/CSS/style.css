@@ -2,6 +2,32 @@
     height:125px;
 }
 
-#cast-photo {
-    /* height:300px; */
+#start-button{
+    background-color: darkblue;
+    border:darkblue;
+}
+#submit-button{
+    background-color: darkblue;
+    border:darkblue;
+}
+#restart-button {
+    background-color: darkblue;
+    border:darkblue;
+    margin-top: 15px;
+}
+#start-button:hover {
+    opacity:.75;
+}
+
+.answer:hover {
+    background:navy;
+    color:white;
+}
+
+#message {
+    color:orangered;
+}
+
+#correctedAnswer{
+    color:navy;
 }
