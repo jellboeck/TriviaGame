@@ -46,118 +46,121 @@ var questions = [{
 }]
 
 //variables
-var currentQuestion=0; 
-var correctAnswer=0; 
-var incorrectAnswer=0; 
-var unanswered=0;
-var answered=true; 
-var seconds; 
-var time; 
+var currentQuestion = 0;
+var correctAnswer = 0;
+var incorrectAnswer = 0;
+var unanswered = 0;
+var answered = true;
+var seconds;
+var time;
 var userAnswer;
 var messages = {
-	correct: "You got it right!",
-	incorrect: "Incorrect!",
-	endTime: "Out of time!",
+    correct: "You got it right!",
+    incorrect: "Incorrect!",
+    endTime: "Out of time!",
 }
 //starts the quiz
-$("#start-button").on('click', function(){
-	$("#start-page").hide();
-	newQuestion();
+$("#start-button").on('click', function () {
+    $("#start-page").hide();
+    newQuestion();
 });
 
 //resets the variables and starts the quiz over
-$("#restart-button").on("click", function(){
+$("#restart").on("click", function () {
     $(this).hide();
-    currentQuestion=0; 
-    correctAnswer=0; 
-    incorrectAnswer=0; 
-    unanswered=0;
+    currentQuestion = 0;
+    correctAnswer = 0;
+    incorrectAnswer = 0;
+    unanswered = 0;
     $("#correct-answers").empty();
     $("#incorrect-answers").empty();
     $("#unanswered").empty();
-	newQuestion();
+    newQuestion();
 });
 
-function newQuestion(){
-	$("#message").empty();
-	$("#correctedAnswer").empty();
-    
-	//sets up new questions & answerList
-	$("#currentQuestion").html("Question #"+(currentQuestion+1)+"/"+questions.length);
-    $("#question").html("<h3>"+ questions[currentQuestion].question +"</h3>");
+function newQuestion() {
+    $("#message").empty();
+    $("#correctedAnswer").empty();
+
+    //sets up new questions & answerList
+    $("#currentQuestion").html("Question #" + (currentQuestion + 1) + "/" + questions.length);
+    $("#question").html("<h3>" + questions[currentQuestion].question + "</h3>");
     console.log(question)
-	for(var i = 0; i < 4; i++){
-		var choices = $("<div>");
-		choices.text(questions[currentQuestion].answerOptions[i]);
-		choices.attr({"data-index": i });
-		choices.addClass("answer");
-		$("#answerOptions").append(choices);
-	}
-	countdown();
-	//clicking an answer will pause the time and setup answerPage
-	$(".answer").on("click",function(){
-		userAnswer = $(this).data("index");
-		clearInterval(time);
-		answerPage();
-	});
+    for (var i = 0; i < 4; i++) {
+        var choices = $("<div>");
+        choices.text(questions[currentQuestion].answerOptions[i]);
+        choices.attr({ "data-index": i });
+        choices.addClass("answer");
+        $("#answerOptions").append(choices);
+    }
+    countdown();
+    //clicking an answer will pause the time and setup answerPage
+    $(".answer").on("click", function () {
+        userAnswer = $(this).data("index");
+        clearInterval(time);
+        answerPage();
+    });
 }
 
-function countdown(){
-	seconds = 15;
-	$("#timeLeft").html("<h3>Time Remaining: " + seconds + "</h3>");
-	time = setInterval(showCountdown, 1000);
+function countdown() {
+    seconds = 15;
+    $("#timeLeft").html("<h3>Time Remaining: " + seconds + "</h3>");
+    time = setInterval(showCountdown, 1000);
 }
 
-function showCountdown(){
-	seconds--;
-	$("#timeLeft").html("<h3>Time Remaining: " + seconds + "</h3>");
-	if(seconds < 1){
+function showCountdown() {
+    seconds--;
+    $("#timeLeft").html("<h3>Time Remaining: " + seconds + "</h3>");
+    if (seconds < 1) {
         clearInterval(time);
         answered = false;
-		answerPage();
-	}
+        answerPage();
+    }
 }
-//clears the answer options and question before displaying the message and correct answer
-function answerPage(){
 
+function answerPage() {
+    //clears the answer options and question before displaying the message and correct answer
     $("#question").empty();
-	$(".answer").empty(); 
-	
-	var rightAnswerText = questions[currentQuestion].answerOptions[questions[currentQuestion].answer];
-	var rightAnswerIndex = questions[currentQuestion].answer;
+    $(".answer").empty();
+
+    //creates variables that hold the index and the text of the correct answer so that it can be compared and then displayed for the user
+    var rightAnswerText = questions[currentQuestion].answerOptions[questions[currentQuestion].answer];
+    var rightAnswerIndex = questions[currentQuestion].answer;
     //checks to see if answer was correct, incorrect, or left unanswered
     //displays the message and correct answer
-	if ((userAnswer === rightAnswerIndex) && (answered === true)) {
-		correctAnswer++;
-        $("#message").html("<h4>" + messages.correct +"</h4>");
-        $("#correctedAnswer").html("<h4>" +"The answer was: " +"</h4>" + rightAnswerText);
-	} else if ((userAnswer !== rightAnswerIndex) && (answered === true)) {
-		incorrectAnswer++;
-		$("#message").html("<h4>" + messages.incorrect + "</h4>");
-		$("#correctedAnswer").html("<h4>" + "The correct answer was: " + "</h4>" + rightAnswerText);
-	} else{
-		unanswered++;
-		$("#message").html("<h4>" + messages.endTime + "</h4>");
-		$("#correctedAnswer").html("<h4>" + "The correct answer was: " + "</h4>" + rightAnswerText);
-		answered = true;
-	}
-	
-	if(currentQuestion === (questions.length-1)){
-		setTimeout(scoreboard, 3000)
-	} else{
-		currentQuestion++;
-		setTimeout(newQuestion, 3000);
-	}	
+    if ((userAnswer === rightAnswerIndex) && (answered === true)) {
+        correctAnswer++;
+        $("#message").html("<h4>" + messages.correct + "</h4>");
+        $("#correctedAnswer").html("<h4>" + "The answer was: " + "</h4>" + rightAnswerText);
+    } else if ((userAnswer !== rightAnswerIndex) && (answered === true)) {
+        incorrectAnswer++;
+        $("#message").html("<h4>" + messages.incorrect + "</h4>");
+        $("#correctedAnswer").html("<h4>" + "The correct answer was: " + "</h4>" + rightAnswerText);
+    } else {
+        unanswered++;
+        $("#message").html("<h4>" + messages.endTime + "</h4>");
+        $("#correctedAnswer").html("<h4>" + "The correct answer was: " + "</h4>" + rightAnswerText);
+        answered = true;
+    }
+
+    if (currentQuestion === (questions.length - 1)) {
+        setTimeout(scoreboard, 3000)
+    } else {
+        currentQuestion++;
+        setTimeout(newQuestion, 3000);
+    }
 }
 
-function scoreboard(){
+function scoreboard() {
+    //clears the questions, timer, and message and displays the game totals
     $("#timeLeft").empty();
     $("#currentQuestion").empty();
-	$("#message").empty();
-	$("#correctedAnswer").empty();
-	$("#correct-answers").html("Correct Answers: " + correctAnswer);
-	$("#incorrect-answers").html("Incorrect Answers: " + incorrectAnswer);
+    $("#message").empty();
+    $("#correctedAnswer").empty();
+    $("#correct-answers").html("Correct Answers: " + correctAnswer);
+    $("#incorrect-answers").html("Incorrect Answers: " + incorrectAnswer);
     $("#unanswered").html("Unanswered Questions: " + unanswered);
+    //shows the restart div and then creates a button for the user to click to restart the game
     $("#restart").show();
-	$("#restart").html("<button class='btn btn-primary' id='restart-button'>" + "Play Again?"+ "</button>");
+    $("#restart").html("<button class='btn btn-primary' id='restart-button'>" + "Play Again?" + "</button>");
 }
