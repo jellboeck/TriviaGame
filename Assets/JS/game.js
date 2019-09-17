@@ -81,6 +81,7 @@ $("#restart").on("click", function () {
 function newQuestion() {
     $("#message").empty();
     $("#correctedAnswer").empty();
+    // $("#nextQuestion").empty();
 
     //sets up new questions & answerList
     $("#currentQuestion").html("Question #" + (currentQuestion + 1) + "/" + questions.length);
@@ -124,22 +125,22 @@ function answerPage() {
     $(".answer").empty();
 
     //creates variables that hold the index and the text of the correct answer so that it can be compared and then displayed for the user
-    var rightAnswerText = questions[currentQuestion].answerOptions[questions[currentQuestion].answer];
-    var rightAnswerIndex = questions[currentQuestion].answer;
+    var answerText = questions[currentQuestion].answerOptions[questions[currentQuestion].answer];
+    var answerIndex = questions[currentQuestion].answer;
     //checks to see if answer was correct, incorrect, or left unanswered
     //displays the message and correct answer
-    if ((userAnswer === rightAnswerIndex) && (answered === true)) {
+    if ((userAnswer === answerIndex) && (answered === true)) {
         correctAnswer++;
         $("#message").html("<h4>" + messages.correct + "</h4>");
-        $("#correctedAnswer").html("<h4>" + "The answer was: " + "</h4>" + rightAnswerText);
-    } else if ((userAnswer !== rightAnswerIndex) && (answered === true)) {
+        $("#correctedAnswer").html("<h4>" + "The answer was: " + "</h4>" + answerText);
+    } else if ((userAnswer !== answerIndex) && (answered === true)) {
         incorrectAnswer++;
         $("#message").html("<h4>" + messages.incorrect + "</h4>");
-        $("#correctedAnswer").html("<h4>" + "The correct answer was: " + "</h4>" + rightAnswerText);
+        $("#correctedAnswer").html("<h4>" + "The correct answer was: " + "</h4>" + answerText);
     } else {
         unanswered++;
         $("#message").html("<h4>" + messages.endTime + "</h4>");
-        $("#correctedAnswer").html("<h4>" + "The correct answer was: " + "</h4>" + rightAnswerText);
+        $("#correctedAnswer").html("<h4>" + "The correct answer was: " + "</h4>" + answerText);
         answered = true;
     }
 
@@ -148,6 +149,9 @@ function answerPage() {
     } else {
         currentQuestion++;
         setTimeout(newQuestion, 3000);
+        // $("#nextQuestion").html("<button class='btn btn-primary' id='nextQuestion-button'>" + "Next Question" + "</button>")
+        // $("#nextQuestion-button").on("click", function () {
+        //     newQuestion();
     }
 }
 

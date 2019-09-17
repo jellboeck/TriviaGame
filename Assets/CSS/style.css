@@ -2,6 +2,14 @@
     height:125px;
 }
 
+#title {
+    font-family: 'Slabo 27px', serif;
+}
+
+body {
+    font-family: 'Merriweather', serif;  
+}
+
 #start-button{
     background-color: darkblue;
     border:darkblue;
@@ -15,8 +23,26 @@
     border:darkblue;
     margin-top: 15px;
 }
+
+#nextQuestion-button {
+    background-color: darkblue;
+    border:darkblue;
+    margin-top: 20px;
+}
 #start-button:hover {
     opacity:.75;
+}
+
+#currentQuestion {
+    margin:10px;
+    color:navy;
+    font-weight: bold;
+
+}
+
+.answer {
+    font-weight: bold;
+    margin:5px;
 }
 
 .answer:hover {
@@ -26,8 +52,12 @@
 
 #message {
     color:orangered;
+    text-align: center;
+    margin:10px;
 }
 
 #correctedAnswer{
     color:navy;
+    text-align: center;
+    margin:10px;
 }
