@@ -1,6 +1,6 @@
 # Seinfeld Trivia Game
 
-A ten question multiple choice Seinfeld themed trivia game. This project primarily demonstrates use of JavaScript logic, JQuery DOM manipulation and use of Timers.
+A ten question multiple choice Seinfeld themed trivia game. This project primarily demonstrates use of JavaScript logic, JQuery DOM manipulation, and use of timers.
 
 ## Link to Project:
 
@@ -29,7 +29,7 @@ Generates a question and 4 possible answers. Answers highlight in blue when the 
 
 ### Question Result:
 
-Lets the use know if they answered the question correctly or not. Reveals the answer for incorrect selections. The game advances to the next question automatically after 3 seconds.
+Lets the user know if they answered the question correctly or not. Reveals the answer for incorrect selections. The game advances to the next question automatically after 3 seconds.
 
 ![Image of the question result](/Assets/Images/question-result.PNG)
 
